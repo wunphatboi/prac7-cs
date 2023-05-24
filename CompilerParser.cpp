@@ -78,6 +78,9 @@ ParseTree* CompilerParser::compileSubroutineBody() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileVarDec() {
+    if (!tokenList.empty() && tokenList.front()->getValue() != "var") {
+    throw ParseException();
+    }
     ParseTree* parseTree = new ParseTree("varDec", "");
     for (Token* token : tokenList) {
         std::string type = token->getType();
