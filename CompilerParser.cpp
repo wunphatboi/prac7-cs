@@ -32,7 +32,29 @@ ParseTree* CompilerParser::compileProgram() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClass() {
-    return NULL;
+     if (tokenList.empty() || tokenList.front()->getValue() != "class") {
+        throw ParseException();
+    }
+
+    ParseTree* parseTree = new ParseTree("class", "");
+    ParseTree* currentSubtree = parseTree;  // Track the current subtree
+
+    for (Token* token : tokenList) {
+        std::string type = token->getType();
+        std::string value = token->getValue();
+
+        if (value == "static") {
+            ParseTree* classVarDecSubtree = new ParseTree("classVarDec", "");
+            currentSubtree->addChild(classVarDecSubtree);
+            currentSubtree = classVarDecSubtree;  // Update current subtree
+        } 
+        currentSubtree->addChild(new ParseTree(type, value));
+        if (value == ";"){
+            currentSubtree = parseTree;
+        }
+    }
+
+    return parseTree;
 }
 
 /**
