@@ -102,7 +102,7 @@ ParseTree* CompilerParser::compileSubroutineBody() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileVarDec() {
-    if (tokenList.front()->getValue() != "var"){
+    if (tokenList.front()->getValue() != "var" || tokenList.front()->getType() != "keyword"){
         throw ParseException();
     }
     ParseTree* parseTree = new ParseTree("varDec", "");

@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
      *     }
      */
     list<Token*> tokens;
-    tokens.push_back(new Token("keyword", "va"));
+    tokens.push_back(new Token("keyword", "var"));
     tokens.push_back(new Token("keyword", "int"));
     tokens.push_back(new Token("indentifier", "a"));
     tokens.push_back(new Token("symbol", ";"));
