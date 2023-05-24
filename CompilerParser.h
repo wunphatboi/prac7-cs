@@ -25,6 +25,7 @@ class CompilerParser {
         ParseTree* compileWhile();
         ParseTree* compileDo();
         ParseTree* compileReturn();
+        ParseTree* parseToken();
 
         ParseTree* compileExpression();
         ParseTree* compileTerm();

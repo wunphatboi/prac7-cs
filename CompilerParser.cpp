@@ -32,45 +32,75 @@ ParseTree* CompilerParser::compileProgram() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClass() {
+
      if (tokenList.empty() || tokenList.front()->getValue() != "class") {
+
         throw ParseException();
+
     }
+
 
     ParseTree* parseTree = new ParseTree("class", "");
+
     ParseTree* currentSubtree = parseTree;  // Track the current subtree
 
+
     for (Token* token : tokenList) {
+
         std::string type = token->getType();
+
         std::string value = token->getValue();
 
+
         if (value == "static" || value == "field") {
+
             ParseTree* classVarDecSubtree = new ParseTree("classVarDec", "");
+
             currentSubtree->addChild(classVarDecSubtree);
+
             currentSubtree = classVarDecSubtree;  // Update current subtree
+
         } 
+
         if (value == "}"){
+
             currentSubtree = parseTree;
+
         }
+
         currentSubtree->addChild(new ParseTree(type, value));
+
         if (value == ";"){
+
             currentSubtree = parseTree;
+
         }
+
     }
+
     return parseTree;
+
 }
+
 
 /**
  * Generates a parse tree for a static variable declaration or field declaration
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClassVarDec() {
-    ParseTree* parseTree = new ParseTree("classVarDec", "");
-    for (Token* token : tokenList) {
-        std::string type = token->getType();
-        std::string value = token->getValue();
-        parseTree->addChild(new ParseTree(type, value));
-}
-    return parseTree;
+    ParseTree* classVarDecTree = new ParseTree("classVarDec", "");
+
+    // Add tokens until a semicolon is encountered or the token list is empty
+    while (!tokenList.empty()) {
+        std::string value = tokenList.front()->getValue();
+        if (value == ";" || value == "}") {
+            break;  // Exit the loop when encountering a semicolon or closing brace
+        }
+
+        classVarDecTree->addChild(parseToken());
+    }
+
+    return classVarDecTree;
 }
 
 /**
@@ -224,4 +254,12 @@ Token* CompilerParser::mustBe(std::string expectedType, std::string expectedValu
  */
 const char* ParseException::what() {
     return "An Exception occurred while parsing!";
+}
+
+ParseTree* CompilerParser::parseToken() {
+    Token* token = tokenList.front();
+    tokenList.pop_front();
+    std::string type = token->getType();
+    std::string value = token->getValue();
+    return new ParseTree(type, value);
 }
