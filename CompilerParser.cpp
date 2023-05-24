@@ -48,10 +48,10 @@ ParseTree* CompilerParser::compileClass() {
             currentSubtree->addChild(classVarDecSubtree);
             currentSubtree = classVarDecSubtree;  // Update current subtree
         } 
-        currentSubtree->addChild(new ParseTree(type, value));
-        if (value == ";"){
+        if (value == "}"){
             currentSubtree = parseTree;
         }
+        currentSubtree->addChild(new ParseTree(type, value));
     }
 
     return parseTree;
