@@ -80,7 +80,15 @@ ParseTree* CompilerParser::compileSubroutineBody() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileVarDec() {
-    return NULL;
+      if (!tokenList.empty() && tokenList.front()->getValue() != "class") {
+    ParseTree* parseTree = new ParseTree("varDec", "");
+    for (Token* token : tokenList) {
+        std::string type = token->getType();
+        std::string value = token->getValue();
+        parseTree->addChild(new ParseTree(type, value));
+}
+    return parseTree;
+}
 }
 
 /**
