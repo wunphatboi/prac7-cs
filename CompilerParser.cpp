@@ -52,8 +52,10 @@ ParseTree* CompilerParser::compileClass() {
             currentSubtree = parseTree;
         }
         currentSubtree->addChild(new ParseTree(type, value));
+        if (value == ";"){
+            currentSubtree = parseTree;
+        }
     }
-
     return parseTree;
 }
 
