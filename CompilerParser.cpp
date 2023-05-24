@@ -40,7 +40,6 @@ ParseTree* CompilerParser::compileClass() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClassVarDec() {
-     if (!tokenList.empty() && tokenList.front()->getValue() != "class") {
     ParseTree* parseTree = new ParseTree("classVarDec", "");
     for (Token* token : tokenList) {
         std::string type = token->getType();
@@ -48,7 +47,6 @@ ParseTree* CompilerParser::compileClassVarDec() {
         parseTree->addChild(new ParseTree(type, value));
 }
     return parseTree;
-}
 }
 
 /**
@@ -80,7 +78,6 @@ ParseTree* CompilerParser::compileSubroutineBody() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileVarDec() {
-      if (!tokenList.empty() && tokenList.front()->getValue() != "class") {
     ParseTree* parseTree = new ParseTree("varDec", "");
     for (Token* token : tokenList) {
         std::string type = token->getType();
@@ -88,7 +85,6 @@ ParseTree* CompilerParser::compileVarDec() {
         parseTree->addChild(new ParseTree(type, value));
 }
     return parseTree;
-}
 }
 
 /**
