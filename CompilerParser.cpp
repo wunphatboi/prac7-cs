@@ -13,18 +13,7 @@ CompilerParser::CompilerParser(std::list<Token*> tokens) {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileProgram() {
-    ParseTree* parseTree = new ParseTree("Program"," ");
-
-    // Parse the class declaration
-    ParseTree* classDeclaration = compileClass();
-
-    // Add the class declaration to the parse tree
-    parseTree->addChild(classDeclaration);
-
-    // Optional: Parse additional program elements if needed
-
-    // Return the parse tree
-    return parseTree;
+    return NULL;
 }
 
 /**
