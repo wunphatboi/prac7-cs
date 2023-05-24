@@ -1,4 +1,5 @@
 #include "CompilerParser.h"
+using namespace std;
 
 
 /**
@@ -14,20 +15,16 @@ CompilerParser::CompilerParser(std::list<Token*> tokens) {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileProgram() {
-  // Create the root node of the parse tree
-  ParseTree* parseTree = new ParseTree("Program", "");
-
-  // Iterate through the list of tokens
-  for (Token* token : tokenList) {
-    std::string type = token->getType();
-    std::string value = token->getValue();
-
-    // Create nodes for the tokens and add them to the parse tree
-    parseTree->addChild(new ParseTree(type, value));
-  }
-
-  // Return the generated parse tree
-  return parseTree;
+    if (!tokenList.empty() && tokenList.front()->getValue() != "class") {
+    throw ParseException();
+    }
+    ParseTree* parseTree = new ParseTree("class", "");
+    for (Token* token : tokenList) {
+        std::string type = token->getType();
+        std::string value = token->getValue();
+        parseTree->addChild(new ParseTree(type, value));
+}
+    return parseTree;
 }
 
 /**
