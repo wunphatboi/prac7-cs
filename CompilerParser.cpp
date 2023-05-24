@@ -43,7 +43,7 @@ ParseTree* CompilerParser::compileClass() {
         std::string type = token->getType();
         std::string value = token->getValue();
 
-        if (value == "static") {
+        if (value == "static" || value == "field") {
             ParseTree* classVarDecSubtree = new ParseTree("classVarDec", "");
             currentSubtree->addChild(classVarDecSubtree);
             currentSubtree = classVarDecSubtree;  // Update current subtree
