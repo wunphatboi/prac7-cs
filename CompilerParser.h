@@ -29,6 +29,8 @@ class CompilerParser {
         ParseTree* compileExpression();
         ParseTree* compileTerm();
         ParseTree* compileExpressionList();
+
+        std::list<Token*> tokenList;
         
         void next();
         Token* current();

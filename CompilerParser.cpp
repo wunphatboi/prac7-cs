@@ -6,6 +6,7 @@
  * @param tokens A linked list of tokens to be parsed
  */
 CompilerParser::CompilerParser(std::list<Token*> tokens) {
+    tokenList = tokens;
 }
 
 /**
@@ -13,7 +14,20 @@ CompilerParser::CompilerParser(std::list<Token*> tokens) {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileProgram() {
-    return NULL;
+  // Create the root node of the parse tree
+  ParseTree* parseTree = new ParseTree("Program", "");
+
+  // Iterate through the list of tokens
+  for (Token* token : tokenList) {
+    std::string type = token->getType();
+    std::string value = token->getValue();
+
+    // Create nodes for the tokens and add them to the parse tree
+    parseTree->addChild(new ParseTree(type, value));
+  }
+
+  // Return the generated parse tree
+  return parseTree;
 }
 
 /**
