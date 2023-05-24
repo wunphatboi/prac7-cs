@@ -40,7 +40,15 @@ ParseTree* CompilerParser::compileClass() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClassVarDec() {
-    return NULL;
+     if (!tokenList.empty() && tokenList.front()->getValue() != "class") {
+    ParseTree* parseTree = new ParseTree("classVarDec", "");
+    for (Token* token : tokenList) {
+        std::string type = token->getType();
+        std::string value = token->getValue();
+        parseTree->addChild(new ParseTree(type, value));
+}
+    return parseTree;
+}
 }
 
 /**
