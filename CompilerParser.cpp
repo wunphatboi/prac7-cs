@@ -151,7 +151,7 @@ ParseTree* CompilerParser::compileExpressionList() {
  * Advance to the next token
  */
 void CompilerParser::next(){
-    code goes here;
+    return;
 }
 
 /**
