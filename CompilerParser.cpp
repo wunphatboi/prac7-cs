@@ -344,7 +344,37 @@ ParseTree* CompilerParser::compileStatements() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileLet() {
-    return NULL;
+        ParseTree* parseTree = new ParseTree("letStatement", "");
+
+    ParseTree* currentSubtree = parseTree;  // Track the current subtree
+
+
+    for (Token* token : tokenList) {
+
+        std::string type = token->getType();
+
+        std::string value = token->getValue();
+
+
+        if (value == "skip"){
+            ParseTree* statementSubtree = new ParseTree("expression", "");
+
+            currentSubtree->addChild(statementSubtree);
+
+            currentSubtree = statementSubtree;  // Update current subtree
+
+        }
+        if (value == ";"){
+
+            currentSubtree = parseTree;
+
+        }
+
+        currentSubtree->addChild(new ParseTree(type, value));
+
+    }
+
+    return parseTree;
 }
 
 /**
