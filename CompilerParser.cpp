@@ -360,7 +360,52 @@ ParseTree* CompilerParser::compileIf() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileWhile() {
-    return NULL;
+    ParseTree* parseTree = new ParseTree("whileStatement", "");
+
+    ParseTree* currentSubtree = parseTree;  // Track the current subtree
+
+
+    for (Token* token : tokenList) {
+
+        std::string type = token->getType();
+
+        std::string value = token->getValue();
+
+
+        if (value == "skip"){
+            ParseTree* statementSubtree = new ParseTree("expression", "");
+
+            currentSubtree->addChild(statementSubtree);
+
+            currentSubtree = statementSubtree;  // Update current subtree
+
+        }
+        if (value == ")"){
+
+            currentSubtree = parseTree;
+
+        }
+        if (value == "{"){
+
+            ParseTree* ssSubtree = new ParseTree("statements", "");
+
+            currentSubtree->addChild(ssSubtree);
+
+            currentSubtree = ssSubtree;  // Update current subtree
+
+
+        }
+        if (value == "}"){
+
+            currentSubtree = parseTree;
+
+        }
+
+        currentSubtree->addChild(new ParseTree(type, value));
+
+    }
+
+    return parseTree;
 }
 
 /**
