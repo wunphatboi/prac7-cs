@@ -13,13 +13,13 @@ int main(int argc, char *argv[]) {
      *     }
      */
     list<Token*> tokens;
-    tokens.push_back(new Token("keyword", "return"));
+    tokens.push_back(new Token("keyword", "do"));
     tokens.push_back(new Token("keyword", "skip"));
     tokens.push_back(new Token("symbol", ";"));
 
     try {
         CompilerParser parser(tokens);
-        ParseTree* result = parser.compileReturn();
+        ParseTree* result = parser.compileDo();
         if (result != NULL){
             cout << result->tostring() << endl;
         }
