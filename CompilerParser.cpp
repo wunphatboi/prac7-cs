@@ -116,7 +116,13 @@ ParseTree* CompilerParser::compileSubroutine() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileParameterList() {
-    return NULL;
+    ParseTree* parseTree = new ParseTree("parameterList", "");
+    for (Token* token : tokenList) {
+        std::string type = token->getType();
+        std::string value = token->getValue();
+        parseTree->addChild(new ParseTree(type, value));
+}
+    return parseTree;
 }
 
 /**
