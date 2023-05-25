@@ -284,7 +284,59 @@ ParseTree* CompilerParser::compileVarDec() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileStatements() {
-    return NULL;
+
+
+    ParseTree* parseTree = new ParseTree("statements", "");
+
+    ParseTree* currentSubtree = parseTree;  // Track the current subtree
+
+
+    for (Token* token : tokenList) {
+
+        std::string type = token->getType();
+
+        std::string value = token->getValue();
+
+
+        if (value == "let") {
+
+            ParseTree* letSubtree = new ParseTree("letStatement", "");
+
+            currentSubtree->addChild(letSubtree);
+
+            currentSubtree = letSubtree;  // Update current subtree
+
+        } 
+        if (value == "do") {
+
+            ParseTree* doSubtree = new ParseTree("doStatement", "");
+
+            currentSubtree->addChild(doSubtree);
+
+            currentSubtree = doSubtree;  // Update current subtree
+
+        } 
+
+        if (value == "skip"){
+            ParseTree* exSubtree = new ParseTree("expression", "");
+
+            currentSubtree->addChild(exSubtree);
+
+            currentSubtree = exSubtree;  // Update current subtree
+
+
+        }
+        if (value == ";" && currentSubtree != parseTree){
+            currentSubtree = parseTree;
+        }
+
+
+        currentSubtree->addChild(new ParseTree(type, value));
+
+    }
+
+    return parseTree;
+
 }
 
 /**
@@ -332,7 +384,27 @@ ParseTree* CompilerParser::compileReturn() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileExpression() {
-    return NULL;
+     if (tokenList.empty() || tokenList.front()->getValue() != "skip") {
+
+        throw ParseException();
+
+    }
+
+    ParseTree* parseTree = new ParseTree("expression", "");
+
+    ParseTree* currentSubtree = parseTree;  // Track the current subtree
+
+
+    for (Token* token : tokenList) {
+
+        std::string type = token->getType();
+
+        std::string value = token->getValue();
+        currentSubtree->addChild(new ParseTree(type, value));
+
+    }
+
+    return parseTree;
 }
 
 /**
