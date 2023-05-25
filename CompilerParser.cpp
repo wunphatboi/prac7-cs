@@ -108,7 +108,83 @@ ParseTree* CompilerParser::compileClassVarDec() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileSubroutine() {
-    return NULL;
+     if (tokenList.empty() || tokenList.front()->getValue() != "function") {
+
+        throw ParseException();
+
+    }
+
+
+    ParseTree* parseTree = new ParseTree("subroutine", "");
+
+    ParseTree* currentSubtree = parseTree;  // Track the current subtree
+
+
+    for (Token* token : tokenList) {
+
+        std::string type = token->getType();
+
+        std::string value = token->getValue();
+
+
+        if (value == "int" && currentSubtree == parseTree) {
+
+            ParseTree* parameterSubtree = new ParseTree("parameterList", "");
+
+            currentSubtree->addChild(parameterSubtree);
+
+            currentSubtree = parameterSubtree;  // Update current subtree
+
+        } 
+        if (value == "{") {
+            ParseTree* subSubtree = new ParseTree("subroutineBody", "");
+
+            currentSubtree->addChild(subSubtree);
+
+            currentSubtree = subSubtree;  // Update current subtree
+
+        }
+        if (value == "var" ){
+            ParseTree* varSubtree = new ParseTree("varDec", "");
+
+            currentSubtree->addChild(varSubtree);
+
+            currentSubtree = varSubtree;  // Update current subtree
+
+        }
+        if (value == "let"){
+            ParseTree* statementSubtree = new ParseTree("statements", "");
+
+            currentSubtree->addChild(statementSubtree);
+
+            currentSubtree = statementSubtree;  // Update current subtree
+
+        }
+
+        if (value == ")"){
+
+            currentSubtree = parseTree;
+
+        }
+
+
+        if (value == "}"){
+
+            currentSubtree = parseTree;
+
+        }
+
+        currentSubtree->addChild(new ParseTree(type, value));
+
+        if (value == ";"){
+
+            currentSubtree = parseTree;
+
+        }
+
+    }
+
+    return parseTree;
 }
 
 /**
