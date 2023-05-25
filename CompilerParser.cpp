@@ -376,21 +376,9 @@ ParseTree* CompilerParser::compileDo() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileReturn() {
-    return NULL;
-}
 
-/**
- * Generates a parse tree for an expression
- * @return a ParseTree
- */
-ParseTree* CompilerParser::compileExpression() {
-     if (tokenList.empty() || tokenList.front()->getValue() != "skip") {
 
-        throw ParseException();
-
-    }
-
-    ParseTree* parseTree = new ParseTree("expression", "");
+    ParseTree* parseTree = new ParseTree("returnStatement", "");
 
     ParseTree* currentSubtree = parseTree;  // Track the current subtree
 
@@ -400,10 +388,37 @@ ParseTree* CompilerParser::compileExpression() {
         std::string type = token->getType();
 
         std::string value = token->getValue();
+
+
+        if (value == "skip"){
+            ParseTree* statementSubtree = new ParseTree("expression", "");
+
+            currentSubtree->addChild(statementSubtree);
+
+            currentSubtree = statementSubtree;  // Update current subtree
+
+        }
+        if (value == ";"){
+
+            currentSubtree = parseTree;
+
+        }
+
         currentSubtree->addChild(new ParseTree(type, value));
 
     }
 
+    return parseTree;
+}
+
+/**
+ * Generates a parse tree for an expression
+ * @return a ParseTree
+ */
+ParseTree* CompilerParser::compileExpression() {
+    ParseTree* parseTree = new ParseTree("expression", "");
+
+    ParseTree* currentSubtree = parseTree;  // Track the current subtree
     return parseTree;
 }
 
